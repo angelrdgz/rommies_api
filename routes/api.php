@@ -21,10 +21,11 @@ Route::prefix('v1')->group(function () {
 
 	Route::post('login', 'PassportController@login');
 	Route::post('/register', 'PassportController@register');
-	Route::post('/register-rommie', 'PassportController@registerRoomie');
+	Route::post('/register-roomie', 'PassportController@registerRoomie');
 	 
 	Route::middleware('auth:api')->group(function () {
-	    Route::get('user', 'PassportController@details');
+	    Route::resource('tasks', 'TaskController');
+	    Route::get('logout', 'PassportController@logout');
 	});
  
 });

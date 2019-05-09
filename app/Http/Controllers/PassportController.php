@@ -36,19 +36,15 @@ class PassportController extends Controller
         $team->name = $request->team_name;
         $team->code = $this->generateRandomString(8);
         $team->save();
- 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'team_id' => $team->id,
-            'password' => bcrypt($request->password),
-            'role_id' => $request->role_id,
-        ]);
 
-        
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->team_id = $team->id;
+        $user->role_id = $request->role_id;
+        $user->save();
 
-        
- 
         $token = $user->createToken('TutsForWeb')->accessToken;
  
         return response()->json(['token' => $token], 200);
@@ -70,31 +66,23 @@ class PassportController extends Controller
             ]);
         }
 
-        $team = Team::where('code'. $request->code)->first();
+        $team = Team::where('code', $request->code)->first();
 
         if(is_null($team)){
           return response()->json(['status'=>0,'message'=>'No team founded']);
         }
  
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'role_id' => $request->role_id
-        ]);
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->team_id = $team->id;
+        $user->role_id = $request->role_id;
+        $user->save();
 
-        $team = new Team();
-        $team->user_id = $user->id;
-        $team->name = $request->team_name;
-        $team->code = $this->generateRandomString(8);
-        $team->user_id = $user->id;
-        $team->save();
-
-        
- 
         $token = $user->createToken('TutsForWeb')->accessToken;
  
-        return response()->json(['token' => $token], 200);
+        return response()->json(['token' => $token, 'user'=>$user], 200);
     }
  
     /**
@@ -124,10 +112,20 @@ class PassportController extends Controller
  
         if (auth()->attempt($credentials)) {
             $token = auth()->user()->createToken('TutsForWeb')->accessToken;
-            return response()->json(['token' => $token], 200);
+            return response()->json(['token' => $token, 'user'=>auth()->user()], 200);
         } else {
-            return response()->json(['error' => 'UnAuthorised'], 401);
+            return response()->json(['error' => 'Unauthorised'], 401);
         }
+    }
+
+    public function logout (Request $request) {
+
+        $token = $request->user()->token();
+        $token->revoke();
+
+        $response = 'You have been succesfully logged out!';
+        return response()->json(['message'=>$response], 200);
+
     }
  
     /**
