@@ -17,6 +17,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+/*Route::get('login', 'PassportController@login');*/
+
 Route::prefix('v1')->group(function () {
 
 	Route::post('login', 'PassportController@login');
@@ -25,6 +27,11 @@ Route::prefix('v1')->group(function () {
 	 
 	Route::middleware('auth:api')->group(function () {
 	    Route::resource('tasks', 'TaskController');
+	    Route::resource('shopping-lists', 'ShoppingListController');
+	    Route::resource('shopping-list-items', 'ShoppingListItemController');
+
+	    Route::post('shopping-list-complete', 'ShoppingListController@complete');
+	    
 	    Route::get('logout', 'PassportController@logout');
 	});
  
