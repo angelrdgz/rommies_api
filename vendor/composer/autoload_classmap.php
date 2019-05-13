@@ -17,6 +17,7 @@ return array(
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\PassportController' => $baseDir . '/app/Http/Controllers/PassportController.php',
     'App\\Http\\Controllers\\ShoppingListController' => $baseDir . '/app/Http/Controllers/ShoppingListController.php',
+    'App\\Http\\Controllers\\ShoppingListItemController' => $baseDir . '/app/Http/Controllers/ShoppingListItemController.php',
     'App\\Http\\Controllers\\TaskController' => $baseDir . '/app/Http/Controllers/TaskController.php',
     'App\\Http\\Controllers\\TeamController' => $baseDir . '/app/Http/Controllers/TeamController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',

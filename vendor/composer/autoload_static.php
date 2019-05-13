@@ -466,6 +466,7 @@ class ComposerStaticInitdde8fe7a9d02f5218b2a9c193a67096a
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\PassportController' => __DIR__ . '/../..' . '/app/Http/Controllers/PassportController.php',
         'App\\Http\\Controllers\\ShoppingListController' => __DIR__ . '/../..' . '/app/Http/Controllers/ShoppingListController.php',
+        'App\\Http\\Controllers\\ShoppingListItemController' => __DIR__ . '/../..' . '/app/Http/Controllers/ShoppingListItemController.php',
         'App\\Http\\Controllers\\TaskController' => __DIR__ . '/../..' . '/app/Http/Controllers/TaskController.php',
         'App\\Http\\Controllers\\TeamController' => __DIR__ . '/../..' . '/app/Http/Controllers/TeamController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',

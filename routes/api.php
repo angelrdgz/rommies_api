@@ -26,6 +26,7 @@ Route::prefix('v1')->group(function () {
 	Route::post('/register-roomie', 'PassportController@registerRoomie');
 	 
 	Route::middleware('auth:api')->group(function () {
+		Route::resource('complaints', 'ComplaintController');
 	    Route::resource('tasks', 'TaskController');
 	    Route::resource('shopping-lists', 'ShoppingListController');
 	    Route::resource('shopping-list-items', 'ShoppingListItemController');
