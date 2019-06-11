@@ -10,21 +10,33 @@ use App\Team;
 use App\Task;
 use App\TaskAssigned;
 use Validator;
+use DB;
 
 class TaskController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
 
     	$user = $request->user();
-    	$assignations = TaskAssigned::where('user_id', $user->id)->get();
+        $assignations = TaskAssigned::where('user_id', $user->id)->get();
+        $data = [];
     	foreach ($assignations as $key => $assignation) {
-    	 	$assignation->task;
+            $task = Task::where('id', $assignation->task_id)->where('completed',0)->first();
+             if(!is_null($task)){
+               foreach ($task->roomies as $key => $roomie) {
+                   $roomie->user;
+               }
+                array_push($data, $task);
+             }
+             //$assignation->task = Task::where("id", $assignation->task_id)->first();
+             //$assignation->roomies = User::where("id", $assignation->user_id)->first();
     	} 
-    	return response()->json(['status'=>1,'data'=>$assignations,'message'=>'Tasks founded']);
+    	return response()->json(['status'=>1,'data'=>$data,'message'=>'Tasks founded']);
 
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
     	$user = $request->user();
 
@@ -60,12 +72,19 @@ class TaskController extends Controller
 
         return response()->json(['status'=>1,'message'=>'Task stored','data'=>$task]);
     }
-    public function show(Request $request, $id){
-    	$task = Task::find($id);
+
+    public function show(Request $request, $id)
+    {
+        $task = Task::find($id);
+        
+        foreach($task->roomies as $roomie){
+            $roomie->user;
+        }
 
     	return response()->json(['status'=>1,'data'=>$task,'message'=>'Task founded']);
     }
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
 
         $validator = Validator::make($request->all(), [
             'title' => 'required',
@@ -100,7 +119,8 @@ class TaskController extends Controller
         return response()->json(['status'=>1,'message'=>'Task stored','data'=>$task]);
     }
 
-    public function destroy(Request $request, $id){
+    public function destroy(Request $request, $id)
+    {
         $task = Task::find($id);
         $task->completed = 1;
         $task->save();
